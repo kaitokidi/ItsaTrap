@@ -1,0 +1,62 @@
+README
+
+How to play these game on linux:
+
+First of all you will need the SFML libs for compiling these project, if you dont have it, search for it. In the oficial webpage of SFML, everyone will be able to find lots of documentation.
+You can use the makefile to compile and execute the game on Linux. If you go to the folder where there are the archives, and tipe on the terminal "make exes" you will run the first player's version of the gaem.  The other player will have to run on the terminal in the folder where he (or she) have the archives,  "make exec". And the game will start.  But after that, the second player (the one that will connect with the first one) will have to ask his or her friend for his or her IP adress, and write it in the archive "socket.cpp"  replacing the "127.0.0.1" with the IP adress of the first player, in the 13rth line  will be these line:  sf::Socket::Status status = socket.connect("127.0.0.1", port);
+
+Also in the main.cpp,
+
+the users will be able to change the value of std::ifstream in("map3.txt");
+so they will be able to play with the diferent maps we created or even some handmade by them.
+
+for creating a map you need:
+
+--> source from where we will load the tilemap
+png/boardtexture.png
+
+->Position and dimentions  of the ground value (the background) and then pos. and dim. from the walls (or statues, or whatever) inside the tilemap.
+
+0 0 400 400
+1200 0 400 400
+
+->Number of players
+
+2
+
+->For each player, the place from where we have to take his tileset, the width and heigh of the tile char, and the initial position.
+
+png/p2.png 700 930 1 7
+png/p1.png 700 930 18 7
+
+->Position and dimentions  of the traps inside the tilemap.
+400 0 400 400
+800 0 400 400
+
+-> number of col and row
+
+20 13
+
+-> 
+
+     -1 if there is nothing special in this tile, just the background. -
+
+    -2 if there have to be a wall (or statue or whatever)
+
+    0 if there is a trap for the first type.
+
+    1 if there is a trap for the second type.
+
+-2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2
+-2  -1   0  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1   1  -1  -1  -1  -1  -1  -2
+-2  -1   0  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1   1  -1  -1  -1  -1  -1  -2
+-2  -1   0  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1   1  -1  -1  -1  -1  -1  -2
+-2  -1   0  -1  -1   0  -1  -1   0  -1  -1   1  -1   1  -1  -1   1  -1  -1  -2
+-2  -1   0  -1  -1   0  -1  -1   0  -1  -1   1  -1  -1  -1  -1   1  -1  -1  -2
+-2  -1   0  -1  -1   0  -1  -1   0  -1  -1   1  -1  -1  -1  -1   1  -1  -1  -2
+-2  -1   0  -1  -1   0  -1  -1   0  -1  -1   1  -1  -1  -1  -1   1  -1  -1  -2
+-2  -1  -1  -1  -1   0  -1  -1   0  -1  -1   1  -1  -1  -1  -1   1  -1  -1  -2
+-2  -1  -1  -1  -1   0  -1  -1  -1  -1  -1  -1  -1   1  -1  -1   1  -1  -1  -2
+-2  -1  -1  -1   0   0  -1  -1  -1  -1  -1  -1  -1   1  -1  -1  -1  -1  -1  -2
+-2  -1  -1  -1  -1   0  -1  -1  -1  -1  -1  -1  -1   1  -1  -1   1  -1  -1  -2
+-2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2  -2
