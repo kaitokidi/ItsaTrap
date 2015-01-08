@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
 
 	// examplemap.txt
 	//map2.txt
-	std::ifstream in("map2.txt");
+	std::ifstream in("map7.txt");
 	Board board(in, s != 'S');
 
 	std::vector<Dir> directions(2);
@@ -115,10 +115,13 @@ int main(int argc, char *argv[]){
 		deltatime = deltaClock.restart().asSeconds();
 		//std::cout << "directions " << directions[0] << " " << directions[1] << std::endl;
 		board.update(directions, deltatime);
-
+// 	std::cout << "1" << std::endl;
 		window.clear();
+// 			std::cout << "2" << std::endl;
 		window.draw(board);
+// 			std::cout << "3" << std::endl;
 		window.display();
+// 			std::cout << "4" << std::endl;
 
 	}
 }

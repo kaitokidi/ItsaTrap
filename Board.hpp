@@ -24,6 +24,8 @@ private:
 
     sf::Texture texture;
 
+	sf::RectangleShape box;
+	
     sf::Sprite* bg;
     sf::Sprite* wall;
     std::vector<sf::Sprite*> traps;

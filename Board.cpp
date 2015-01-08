@@ -13,7 +13,7 @@ Board::Board(std::istream& in, int player_id) {
     int x, y, w, h;
     in >> x >> y >> w >> h;
     bg->setTextureRect(sf::IntRect(x, y, w, h));
-
+box = sf::RectangleShape(sf::Vector2f(2,2));
     tilesize = sf::Vector2f(w, h);
 
     wall = new sf::Sprite();
@@ -60,20 +60,42 @@ Dir invers(Dir d){
 }
 
 int Board::update(std::vector<Dir> movements, float dTime) {
+		std::cout << "strt update" << std::endl;
     //                  0,0             0,-1           1,0              1,-1 
 //     float delayY[] = { 0,           1*ptilesize.y/3,     0,         1*ptilesize.y/3};
 //     float delayX[] = { ptilesize.x/3, ptilesize.x/3, 2*ptilesize.x/3, 2*ptilesize.x/3};
-    float delayY[] = { 0,           1*ptilesize.y/2,     0,         1*ptilesize.y/2};
-    float delayX[] = { 0, ptilesize.x/2, 2*ptilesize.x/2, 2*ptilesize.x/2};
+
+// 	float delayY[] = { 0,           1*ptilesize.y/2,     0,         1*ptilesize.y/2};
+//     float delayX[] = { 0, ptilesize.x/2, 2*ptilesize.x/2, 2*ptilesize.x/2};
+
+	sf::Vector2f size ((float)(players[1]->getSpriteSize()).x, (float)(players[1]->getSpriteSize()).y);
+    float delayX[] = { size.x/3, 2*size.x/3, size.x/3,     2*size.x/3 };
+    float delayY[] = { 0*size.y/4, 0*size.y/4, -1*size.y/4, -1*size.y/4 };
 
     for(int i = 0; i < _nb_players; ++i) players[i]->move(movements[i], dTime);
  
     for(int i = 0; i < _nb_players; ++i) {
         sf::Vector2f pos = players[i]->getPosition();
         bool diepotato = false;
-        for (int k = 0; k < 4; ++k) {
+		std::cout << "equis" << delayX[2]<<" nd "<< delayY[3]<< std::endl;
+// 		box = sf::RectangleShape(sf::Vector2f(-1*delayX[2], delayY[3]));
+				box = sf::RectangleShape(sf::Vector2f(10,10));
+		box.setPosition(sf::Vector2f(pos.x, pos.y));
+		box.setFillColor(sf::Color::Red);
+		std::cout << "cu" << std::endl;
 
-            int  tiletype = tilemap[(pos.y-delayY[k])/tilesize.y][(pos.x+delayX[k])/tilesize.x];
+		
+		for(int y = 0; y < tilemap.size(); ++y){
+			for(int x = 0; x < tilemap[0].size(); ++x){
+				std::cout << tilemap[y][x];
+			}
+			std::cout << std::endl;
+		}
+
+		
+        for (int k = 0; k < 4; ++k) {
+//  			std::cout << k << "[" << (int)((pos.y+delayY[k])/tilesize.y) << ","<< (int)((pos.x+delayX[k])/tilesize.x) << "]" << std::endl;
+            int  tiletype = tilemap[(int)((pos.y+delayY[k])/tilesize.y)][((int)((pos.x+delayX[k])/tilesize.x))];
             if(tiletype == -2) {
                 players[i]->move(invers(movements[i]), dTime);
                 players[i]->move(invers(movements[i]), dTime);
@@ -81,8 +103,8 @@ int Board::update(std::vector<Dir> movements, float dTime) {
                 break;
             }
             if( tiletype >= 0) diepotato = true;
-
         }
+
         if (diepotato) players[i]->tornaInici();
 
         if(i == 0 and pos.x >= 17*tilesize.x) {
@@ -96,11 +118,13 @@ int Board::update(std::vector<Dir> movements, float dTime) {
             players[1]->tornaInici();
         }
     }
+    std::cout << "end update" << std::endl;
 }
 
 
 void Board::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    sf::Vector2f realtilesize = sf::Vector2f(target.getSize().x /1./_width, target.getSize().y /1./_height);
+    	std::cout << "start drawing" << std::endl;
+	sf::Vector2f realtilesize = sf::Vector2f(target.getSize().x /1./_width, target.getSize().y /1./_height);
     states.transform.scale(realtilesize.x/tilesize.x, realtilesize.y/tilesize.y);
 
     for(int i = 0; i < _width; ++i) for (int j = 0; j < _height; ++j) {
@@ -131,5 +155,8 @@ void Board::draw(sf::RenderTarget& target, sf::RenderStates states) const{
                 s.setScale(0.6,0.6);
                 target.draw(s);
             }
-        }
+	}
+	
+	target.draw(box);
+	std::cout << "enddraw" << std::endl;
 }
